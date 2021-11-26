@@ -27,13 +27,6 @@ export = {
   },
 
   test(val) {
-    const { sqlQueryInfo } = localGlobal;
-
-    return (
-      val === "sql" &&
-      typeof sqlQueryInfo === "object" &&
-      !!sqlQueryInfo.activeTest &&
-      !!sqlQueryInfo.running
-    );
+    return val === "sql";
   },
 } as Plugin;
