@@ -4,6 +4,11 @@
   "description": "Tooling for keeping tabs on your queries in integration tests",
   "main": "dist/index.js",
   "license": "MIT",
+  "files": [
+    "dist/**",
+    "environment.js",
+    "serializer.js"
+  ],
   "devDependencies": {
     "@jest/types": "^27.2.5",
     "@types/node": "^16.11.10",
