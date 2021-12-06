@@ -34,8 +34,10 @@ const knexQueryEventHandler =
     if (!queries || !localGlobal.sqlQueryInfo.running) {
       return;
     }
-    const bindings = options.withBindings ? data.bindings : [];
-    const sqlString = knex.raw(data.sql, bindings).toString();
+
+    const sqlString = options.withBindings
+      ? knex.raw(data.sql, data.bindings).toString()
+      : data.sql;
     queries.push(sqlString);
   };
 
