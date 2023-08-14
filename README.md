@@ -30,3 +30,47 @@ In your `jest.config.js` or `package.json#jest` block:
   snapshotSerializers: ['jest-sql-snapshots/serializer'],
 }
 ```
+
+In your test setup file(s):
+
+```js
+import { recordKnexEvents, stopRecordingKnexEvents } from "jest-sql-snapshots";
+
+const knex = setupDb(); // instantiate / get knex somehow from your codebase
+
+beforeAll(() => {
+  recordKnexEvents(knex);
+});
+
+afterAll(() => {
+  stopRecordingKnexEvents(knex);
+});
+```
+
+Then in your test suite:
+
+```js
+describe("something", () => {
+  it("run the expected sql", async () => {
+    await someQuery();
+    expect("sql").toMatchSnapshot();
+  });
+});
+```
+
+Optionally, if you have other queries running in your `it()` block that you're not interested in snapshotting, you can wrap just the target query:
+
+```js
+import { recordSql } from "jest-sql-snapshots";
+
+describe("something more involved", () => {
+  it("run the expected target sql", async () => {
+    await someOtherQuery();
+
+    await recordSql("mytargetquery", () => someQuery());
+    expect("sql:mytargetquery").toMatchSnapshot();
+  });
+});
+```
+
+You can use this block wrapper approach multiple times with different names provided as the first argument.

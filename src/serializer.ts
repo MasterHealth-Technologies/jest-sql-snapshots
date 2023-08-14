@@ -4,7 +4,7 @@ import { SQLEnvGlobal } from "./types";
 const localGlobal = global as unknown as SQLEnvGlobal;
 
 export = {
-  serialize() {
+  serialize(val: string) {
     if (
       !localGlobal.sqlQueryInfo ||
       !localGlobal.sqlQueryInfo.activeTest ||
@@ -20,13 +20,26 @@ export = {
       return "No recordings found";
     }
 
-    return activeTestRecording
+    let recordingFrames = activeTestRecording.slice();
+    const [, name] = val.split(":");
+    if (name) {
+      const startIndex = recordingFrames.indexOf(`sqlstart:${name}`);
+      if (startIndex !== -1) {
+        recordingFrames = recordingFrames.slice(startIndex + 1);
+      }
+      const finishIndex = recordingFrames.indexOf(`sqlfinish:${name}`);
+      if (finishIndex !== -1) {
+        recordingFrames = recordingFrames.slice(0, finishIndex);
+      }
+    }
+
+    return recordingFrames
       .map((sqlStr) => `  ${sqlStr.replace(/[\n\s]+/g, " ")}`)
       .sort()
       .join("\n");
   },
 
   test(val) {
-    return val === "sql";
+    return typeof val === "string" && val.startsWith("sql");
   },
 } as Plugin;
