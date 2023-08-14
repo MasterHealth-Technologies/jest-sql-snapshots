@@ -1,9 +1,17 @@
 {
   "name": "jest-sql-snapshots",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Tooling for keeping tabs on your queries in integration tests",
   "main": "dist/index.js",
   "license": "MIT",
+  "keywords": [
+    "jest",
+    "knex",
+    "snapshots",
+    "snapshotting",
+    "sql",
+    "query"
+  ],
   "files": [
     "dist/**",
     "environment.js",
