@@ -17,6 +17,7 @@ interface LocalGlobal {
 
 interface RecordOptions {
   withBindings?: boolean;
+  filter?: (sql: string) => boolean;
 }
 
 const localGlobal: LocalGlobal = global as any;
@@ -38,6 +39,11 @@ const knexQueryEventHandler =
     const sqlString = options.withBindings
       ? knex.raw(data.sql, data.bindings).toString()
       : data.sql;
+
+    if (options.filter && options.filter(sqlString) === false) {
+      return;
+    }
+
     queries.push(sqlString);
   };
 

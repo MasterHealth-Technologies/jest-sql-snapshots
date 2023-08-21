@@ -74,3 +74,5 @@ describe("something more involved", () => {
 ```
 
 You can use this block wrapper approach multiple times with different names provided as the first argument.
+
+To filter out SQL from being recorded, you can pass a filter function to the options arg for `recordKnexEvents`. The filter function should return false to omit that query, and the function takes the string query we're about to add to the list.

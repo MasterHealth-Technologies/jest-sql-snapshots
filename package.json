@@ -1,6 +1,6 @@
 {
   "name": "jest-sql-snapshots",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Tooling for keeping tabs on your queries in integration tests",
   "main": "dist/index.js",
   "license": "MIT",
